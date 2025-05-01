@@ -1,0 +1,41 @@
+{
+    "autoSchool": {
+      "name": "DiamondAuto",
+      "website": "https://diamondauto.ro",
+      "phone": "+40723111222",
+      "email": "office@diamondauto.ro"
+    },
+    "student": {
+      "firstName": "Ioana",
+      "lastName": "Marin",
+      "email": "ioana.marin@student.ro",
+      "phone": "0734567890",
+      "cnp": "2990101223344"
+    },
+    "file": {
+      "scholarshipStartDate": "2025-01-10",
+      "criminalRecordExpiryDate": "2026-01-10",
+      "medicalRecordExpiryDate": "2025-07-10",
+      "status": "completed"
+    },
+    "teachingCategory": {
+      "type": "B",
+      "sessionCost": 150,
+      "sessionDuration": 120,
+      "scholarshipPrice": 2250,
+      "minDrivingLessonsReq": 15
+    },
+    "vehicle": {
+      "licensePlateNumber": "CJ-456-ABC",
+      "transmissionType": "M",
+      "color": "blue",
+      "licenseType": "B"
+    },
+    "instructor": {
+      "fullName": "Andrei Popescu"
+    },
+    "payment": {
+      "sessionsPayed": 30,
+      "scholarshipBasePayment": true
+    }
+  }
