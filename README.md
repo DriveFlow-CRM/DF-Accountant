@@ -11,6 +11,7 @@ DriveFlow Accountant is a microservice built for driving schools to generate pro
 - Generate PDF invoices with detailed student, instructor, and vehicle information
 - Preview HTML version of the invoice before generation
 - Beautifully styled invoices with responsive layout
+- Romanian date formatting (DD Month YYYY) for better readability
 - Docker support for easy deployment
 - Heroku-ready configuration
 
@@ -56,9 +57,9 @@ Both endpoints accept the same JSON data format:
     "cnp": "1990123456789"  // Optional
   },
   "file": {
-    "scholarshipStartDate": "2023-05-01",  // Format: YYYY-MM-DD
-    "criminalRecordExpiryDate": "2023-12-31",  // Format: YYYY-MM-DD
-    "medicalRecordExpiryDate": "2023-12-31",  // Format: YYYY-MM-DD
+    "scholarshipStartDate": "2023-05-01",  // Format: YYYY-MM-DD (will be displayed as "01 Mai 2023")
+    "criminalRecordExpiryDate": "2023-12-31",  // Format: YYYY-MM-DD (will be displayed as "31 Decembrie 2023")
+    "medicalRecordExpiryDate": "2023-12-31",  // Format: YYYY-MM-DD (will be displayed as "31 Decembrie 2023")
     "status": "Activ"
   },
   "teachingCategory": {
@@ -83,6 +84,19 @@ Both endpoints accept the same JSON data format:
   }
 }
 ```
+
+## Date Formatting
+
+All dates in the generated invoice are automatically formatted in Romanian style:
+- Input format: YYYY-MM-DD (ISO standard)
+- Display format: DD Month YYYY (e.g., "01 Mai 2023")
+- Month names are in Romanian language
+
+This formatting applies to:
+- Issue Date
+- Medical Record Expiry Date
+- Criminal Record Expiry Date
+- Scholarship Start Date
 
 ## Setup and Deployment
 
