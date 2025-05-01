@@ -12,6 +12,27 @@ import random
 import string
 import base64
 
+# Function to format dates in Romanian style
+def format_romanian_date(date_str):
+    """
+    Format a YYYY-MM-DD date to Romanian style (DD Month YYYY)
+    Returns original string if format doesn't match YYYY-MM-DD
+    """
+    ro_months = {
+        1: "Ianuarie", 2: "Februarie", 3: "Martie", 4: "Aprilie",
+        5: "Mai", 6: "Iunie", 7: "Iulie", 8: "August",
+        9: "Septembrie", 10: "Octombrie", 11: "Noiembrie", 12: "Decembrie"
+    }
+    
+    try:
+        # Try to parse the date in YYYY-MM-DD format
+        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+        # Format as DD Month YYYY in Romanian
+        return f"{date_obj.day:02d} {ro_months[date_obj.month]} {date_obj.year}"
+    except (ValueError, TypeError):
+        # If parsing fails, return the original string
+        return date_str
+
 # Initialize Flask application
 app = Flask(__name__)
 
@@ -141,10 +162,21 @@ def generate_invoice_html(data):
         })
         total += session_total
     
+    # Format dates to Romanian style
+    formatted_issue_date = format_romanian_date(current_date.strftime("%Y-%m-%d"))
+    
+    # Create a copy of file data with formatted dates
+    file_data = {
+        "scholarshipStartDate": format_romanian_date(data.file.scholarshipStartDate),
+        "criminalRecordExpiryDate": format_romanian_date(data.file.criminalRecordExpiryDate),
+        "medicalRecordExpiryDate": format_romanian_date(data.file.medicalRecordExpiryDate),
+        "status": data.file.status
+    }
+    
     # Prepare data for the template
     template_data = {
         'invoice_number': invoice_number,
-        'issue_date': current_date.strftime("%d.%m.%Y"),
+        'issue_date': formatted_issue_date,
         'logo_path': logo_b64,
         'logo_exists': logo_exists,
         'watermark_logo_path': watermark_b64,
@@ -152,7 +184,7 @@ def generate_invoice_html(data):
         'student': data.student,
         'invoice_items': invoice_items,
         'total': f"{total:.2f} RON",
-        'file': data.file,
+        'file': file_data,
         'vehicle': data.vehicle,
         'instructor': data.instructor,
         'teaching_category': data.teachingCategory
