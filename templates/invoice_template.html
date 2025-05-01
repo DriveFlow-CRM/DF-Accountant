@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factură - {{ invoice_number }}</title>
+    <style>
+    {% include 'invoice.css' %}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Watermark -->
+        {% if watermark_logo_path %}
+        <img src="{{ watermark_logo_path }}" alt="DriveFlow Watermark" class="watermark">
+        {% endif %}
+        
+        <div class="header">
+            <div class="header-left">
+                {% if logo_exists %}
+                <img src="{{ logo_path }}" alt="Auto School Logo" class="logo">
+                {% endif %}
+            </div>
+            <div class="header-right">
+                <table class="invoice-details">
+                    <tr>
+                        <th>Număr Factură:</th>
+                        <td>{{ invoice_number }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data Emiterii:</th>
+                        <td>{{ issue_date }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="invoice-title">FACTURĂ FISCALĂ</div>
+        
+        <div class="entity-container">
+            <div class="entity-half">
+                <div class="section-title">FURNIZOR</div>
+                <table class="info-table">
+                    <tr>
+                        <th>Nume:</th>
+                        <td>{{ auto_school.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Website:</th>
+                        <td>{{ auto_school.website }}</td>
+                    </tr>
+                    <tr>
+                        <th>Telefon:</th>
+                        <td>{{ auto_school.phone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ auto_school.email }}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="entity-half">
+                <div class="section-title">CLIENT</div>
+                <table class="info-table">
+                    <tr>
+                        <th>Nume:</th>
+                        <td>{{ student.firstName }} {{ student.lastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ student.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Telefon:</th>
+                        <td>{{ student.phone }}</td>
+                    </tr>
+                    <tr>
+                        <th>CNP:</th>
+                        <td>{{ student.cnp|default('') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section-title">DETALII FACTURĂ</div>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Descriere</th>
+                    <th>Cantitate</th>
+                    <th>Preț unitar</th>
+                    <th>Valoare</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in invoice_items %}
+                <tr>
+                    <td>{{ item.number }}</td>
+                    <td class="description">{{ item.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="amount">{{ item.unit_price }}</td>
+                    <td class="amount">{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="3"></td>
+                    <td class="amount">TOTAL:</td>
+                    <td class="amount">{{ total }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="section-title info-section-title">INFORMAȚII SUPLIMENTARE</div>
+        <div class="additional-info">
+            <div class="info-card">
+                <div class="info-card-title">Instructor:</div>
+                <div class="info-card-content">{{ instructor.fullName }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Valabilitate fișă medicală:</div>
+                <div class="info-card-content">{{ file.medicalRecordExpiryDate }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Vehicul:</div>
+                <div class="info-card-content">{{ vehicle.licensePlateNumber }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Valabilitate cazier:</div>
+                <div class="info-card-content">{{ file.criminalRecordExpiryDate }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Culoare vehicul:</div>
+                <div class="info-card-content">{{ vehicle.color }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Status fișă:</div>
+                <div class="info-card-content">{{ file.status }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Transmisie:</div>
+                <div class="info-card-content">{{ vehicle.transmissionType }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Data începerii școlarizării:</div>
+                <div class="info-card-content">{{ file.scholarshipStartDate }}</div>
+            </div>
+        </div>
+        
+        <hr class="horizontal-rule">
+        
+        <div class="legal-text">
+            Vă mulțumim pentru colaborare! Această factură este valabilă fără semnătură și ștampilă, conform legii 227/2015 privind Codul Fiscal.
+        </div>
+        
+        <div class="footer">
+            Generat de DriveFlow CRM - Sistemul de Management pentru Școli de Șoferi
+        </div>
+    </div>
+</body>
+</html>
